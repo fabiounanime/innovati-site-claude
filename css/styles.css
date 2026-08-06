@@ -48,8 +48,8 @@ button:focus-visible{
 
 .eyebrow{
   font-family:'Space Mono',monospace;
-  font-size:12.5px;
-  letter-spacing:0.14em;
+  font-size:14px;
+  letter-spacing:0.13em;
   text-transform:uppercase;
   color:var(--brand-deep);
   display:inline-flex;
@@ -83,7 +83,7 @@ header.nav.scrolled{
 .nav-inner{
   max-width:var(--maxw);
   margin:0 auto;
-  padding:14px 32px;
+  padding:10px 32px;
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -94,7 +94,10 @@ header.nav.scrolled{
   align-items:center;
   flex:none;
 }
-.brand-logo img{height:34px;width:auto;}
+.brand-logo img{height:58px;width:auto;}
+@media (max-width:520px){
+  .brand-logo img{height:46px;}
+}
 .nav-links{
   display:flex;
   gap:28px;
@@ -150,19 +153,21 @@ header.nav.scrolled{
   position:relative;
   overflow:hidden;
   padding:88px 0 100px;
+}
+.hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
   background-image:
     linear-gradient(var(--line) 1px, transparent 1px),
     linear-gradient(90deg, var(--line) 1px, transparent 1px);
   background-size:56px 56px;
   background-position:center -1px;
-  -webkit-mask-image:radial-gradient(ellipse 85% 70% at 50% 0%, #000 55%, transparent 100%);
-  mask-image:radial-gradient(ellipse 85% 70% at 50% 0%, #000 55%, transparent 100%);
+  -webkit-mask-image:radial-gradient(ellipse 85% 75% at 50% 0%, #000 55%, transparent 100%);
+  mask-image:radial-gradient(ellipse 85% 75% at 50% 0%, #000 55%, transparent 100%);
+  pointer-events:none;
 }
-.hero-inner{
-  -webkit-mask-image:none;
-  mask-image:none;
-}
-.hero .wrap{position:relative;}
+.hero .wrap{position:relative; z-index:1;}
 
 .hero-content{
   max-width:760px;
@@ -217,27 +222,26 @@ header.nav.scrolled{
 /* stamp signature element */
 .stamp{
   position:absolute;
-  width:150px;
-  height:150px;
-  left:calc(100% - 26px);
-  top:-40px;
-  transform:rotate(-9deg) scale(1);
+  width:158px;
+  height:158px;
+  left:calc(100% - 30px);
+  top:-42px;
+  transform:rotate(-6deg) scale(1);
   pointer-events:none;
-  mix-blend-mode:multiply;
-  opacity:0.92;
+  opacity:1;
   animation:stampFall .7s cubic-bezier(.2,1.4,.4,1) .5s both;
 }
 @keyframes stampFall{
-  0%{opacity:0; transform:rotate(-9deg) scale(2.6) translateY(-30px);}
+  0%{opacity:0; transform:rotate(-6deg) scale(2.6) translateY(-30px);}
   70%{opacity:1;}
-  100%{opacity:0.92; transform:rotate(-9deg) scale(1) translateY(0);}
+  100%{opacity:1; transform:rotate(-6deg) scale(1) translateY(0);}
 }
-.stamp svg{width:100%;height:100%;display:block;}
+.stamp svg{width:100%;height:100%;display:block;shape-rendering:geometricPrecision;}
 
 @media (max-width:720px){
   .stamp{
-    width:106px;height:106px;
-    left:auto; right:-4px; top:-22px;
+    width:112px;height:112px;
+    left:auto; right:-4px; top:-24px;
   }
 }
 
@@ -247,6 +251,11 @@ header.nav.scrolled{
   overflow:hidden;
   padding:64px 0 56px;
   text-align:center;
+}
+.page-hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
   background-image:
     linear-gradient(var(--line) 1px, transparent 1px),
     linear-gradient(90deg, var(--line) 1px, transparent 1px);
@@ -254,8 +263,9 @@ header.nav.scrolled{
   background-position:center -1px;
   -webkit-mask-image:radial-gradient(ellipse 80% 100% at 50% 0%, #000 40%, transparent 100%);
   mask-image:radial-gradient(ellipse 80% 100% at 50% 0%, #000 40%, transparent 100%);
+  pointer-events:none;
 }
-.page-hero .wrap{-webkit-mask-image:none; mask-image:none;}
+.page-hero .wrap{position:relative; z-index:1;}
 .page-hero h1{
   font-size:clamp(32px,4.4vw,48px);
   font-weight:700;
@@ -473,58 +483,63 @@ section{padding:88px 0;}
   border-radius:999px;
 }
 
-/* ---------- CLIENTES (dark plaques — logos are white artwork) ---------- */
-.clients-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:16px;
+/* ---------- CLIENTES (carrossel, sem molduras — logos são artes brancas) ---------- */
+.clients-marquee{
+  overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg, transparent 0%, #000 10%, #000 90%, transparent 100%);
+  mask-image:linear-gradient(90deg, transparent 0%, #000 10%, #000 90%, transparent 100%);
 }
-@media (max-width:780px){
-  .clients-grid{grid-template-columns:repeat(2,1fr);}
+.clients-track{
+  display:flex;
+  align-items:center;
+  width:max-content;
+  gap:72px;
+  animation:clientsMarquee 34s linear infinite;
 }
-@media (max-width:480px){
-  .clients-grid{grid-template-columns:1fr;}
-}
-.client-card{
-  background:var(--ink-2);
-  border:1px solid rgba(255,255,255,0.1);
-  border-top:2px solid var(--brand);
-  border-radius:10px;
-  padding:26px 22px;
+.clients-marquee:hover .clients-track{animation-play-state:paused;}
+.client-logo{
+  flex:none;
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:16px;
-  text-align:center;
-  transition:transform .18s ease, border-color .18s ease;
+  gap:10px;
 }
-.client-card:hover{
-  transform:translateY(-2px);
-  border-color:var(--brand);
-}
-.client-card img{
-  height:46px;
+.client-logo img{
+  height:42px;
   width:auto;
   max-width:150px;
   object-fit:contain;
+  opacity:0.78;
+  transition:opacity .2s ease, transform .2s ease;
 }
-.client-name{
-  font-size:14.5px;
-  font-weight:600;
-  color:#fff;
+.client-logo:hover img{
+  opacity:1;
+  transform:translateY(-2px);
 }
-.client-seg{
+.client-logo .client-seg{
   font-family:'Space Mono',monospace;
-  font-size:11.5px;
-  color:#8D97A6;
+  font-size:10.5px;
+  letter-spacing:0.08em;
   text-transform:uppercase;
-  letter-spacing:0.05em;
+  color:#6E7A8A;
+  opacity:0;
+  transition:opacity .2s ease;
+}
+.client-logo:hover .client-seg{opacity:1;}
+@keyframes clientsMarquee{
+  from{transform:translateX(0);}
+  to{transform:translateX(-50%);}
 }
 .clients-note{
   text-align:center;
-  margin-top:28px;
+  margin-top:36px;
   font-size:13px;
   color:#8D97A6;
+}
+
+@media (prefers-reduced-motion: reduce){
+  .clients-track{animation:none; flex-wrap:wrap; justify-content:center; width:auto;}
+  .clients-marquee{mask-image:none; -webkit-mask-image:none;}
 }
 
 /* ---------- DOWNLOADS ---------- */
@@ -684,6 +699,6 @@ footer .brand-logo img{height:30px;}
 
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto;}
-  .stamp{animation:none; opacity:0.92; transform:rotate(-9deg) scale(1);}
-  .service-card, .client-card, .download-card{transition:none;}
+  .stamp{animation:none; opacity:1; transform:rotate(-6deg) scale(1);}
+  .service-card, .client-logo img, .download-card{transition:none;}
 }
