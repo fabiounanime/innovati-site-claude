@@ -5,6 +5,10 @@
   const dialog = document.querySelector('[data-contact-dialog]');
   const leadForm = document.querySelector('#lead-form');
   const phoneInput = leadForm?.querySelector('input[name="telefone"]');
+  const sectorInput = leadForm?.querySelector('select[name="setor"]');
+  const messageInput = leadForm?.querySelector('textarea[name="mensagem"]');
+  const materialInput = leadForm?.querySelector('input[name="material"]');
+  const requestContext = leadForm?.querySelector('[data-request-context]');
   const whatsappNumber = '5521993076319';
 
   const updateHeader = () => header?.classList.toggle('is-scrolled', window.scrollY > 24);
@@ -58,9 +62,58 @@
     logoTrack.dataset.cloned = 'true';
   }
 
-  const openDialog = () => {
+  const heroCarousel = document.querySelector('[data-hero-carousel]');
+  const heroSlides = [...document.querySelectorAll('[data-hero-slide]')];
+  const heroDots = [...document.querySelectorAll('[data-hero-dot]')];
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let activeHero = 0;
+  let heroTimer;
+
+  const showHero = (index) => {
+    activeHero = (index + heroSlides.length) % heroSlides.length;
+    heroSlides.forEach((slide, slideIndex) => {
+      const active = slideIndex === activeHero;
+      slide.hidden = !active;
+      slide.classList.toggle('is-active', active);
+    });
+    heroDots.forEach((dot, dotIndex) => {
+      const active = dotIndex === activeHero;
+      dot.classList.toggle('is-active', active);
+      dot.setAttribute('aria-selected', String(active));
+    });
+  };
+
+  const stopHero = () => window.clearInterval(heroTimer);
+  const startHero = () => {
+    stopHero();
+    if (!reduceMotion && heroSlides.length > 1) heroTimer = window.setInterval(() => showHero(activeHero + 1), 7000);
+  };
+
+  heroDots.forEach((dot) => dot.addEventListener('click', () => {
+    showHero(Number(dot.dataset.heroDot));
+    startHero();
+  }));
+  heroCarousel?.addEventListener('mouseenter', stopHero);
+  heroCarousel?.addEventListener('mouseleave', startHero);
+  heroCarousel?.addEventListener('focusin', stopHero);
+  heroCarousel?.addEventListener('focusout', (event) => {
+    if (!heroCarousel.contains(event.relatedTarget)) startHero();
+  });
+  startHero();
+
+  const openDialog = (trigger) => {
     closeMenu();
     if (!dialog) return;
+    const material = trigger?.dataset?.material || '';
+    const subject = trigger?.dataset?.contactSubject || '';
+    leadForm?.reset();
+    if (materialInput) materialInput.value = material;
+    if (sectorInput && subject && [...sectorInput.options].some((option) => option.value === subject)) sectorInput.value = subject;
+    if (requestContext) {
+      requestContext.hidden = !material;
+      requestContext.textContent = material ? `Interesse registrado: ${material}` : '';
+    }
+    if (messageInput && material) messageInput.value = `Tenho interesse em receber o material “${material}” e gostaria de saber mais.`;
     if (typeof dialog.showModal === 'function') dialog.showModal();
     else dialog.setAttribute('open', '');
     window.setTimeout(() => dialog.querySelector('input')?.focus(), 80);
@@ -72,7 +125,7 @@
     else dialog.removeAttribute('open');
   };
 
-  document.querySelectorAll('[data-open-contact]').forEach((button) => button.addEventListener('click', openDialog));
+  document.querySelectorAll('[data-open-contact]').forEach((button) => button.addEventListener('click', () => openDialog(button)));
   document.querySelector('[data-close-contact]')?.addEventListener('click', closeDialog);
 
   dialog?.addEventListener('click', (event) => {
@@ -94,10 +147,12 @@
     if (!leadForm.reportValidity()) return;
 
     const data = new FormData(leadForm);
+    const material = String(data.get('material') || '').trim();
     const message = [
       'Olá, equipe da *Innovati Automação*!',
       '',
       'Gostaria de falar com um especialista.',
+      ...(material ? ['', `*MATERIAL DE INTERESSE:* ${material}`] : []),
       '',
       '*DADOS PARA CONTATO*',
       `• *Nome:* ${data.get('nome')}`,
