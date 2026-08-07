@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="icon" href="assets/img/logo-innovati.png" type="image/png">
+  <link rel="preload" href="assets/img/hero/hero-gestao.webp" as="image" type="image/webp">
   <link rel="stylesheet" href="css/styles.css">
   <script src="js/main.js" defer></script>
 </head>
@@ -100,32 +101,20 @@
           </ul>
         </div>
 
-        <div class="system-visual reveal is-visible" role="img" aria-label="Módulos de vendas, estoque, fiscal e financeiro conectados à gestão">
-          <div class="system-topbar">
-            <span><i></i> INNOVATI.OS</span>
-            <span>OPERAÇÃO INTEGRADA</span>
-          </div>
-          <div class="system-map">
-            <svg class="system-routes" viewBox="0 0 520 430" aria-hidden="true">
-              <path d="M260 215 C170 190 150 105 86 86"/>
-              <path d="M260 215 C350 190 370 105 434 86"/>
-              <path d="M260 215 C170 240 150 325 86 344"/>
-              <path d="M260 215 C350 240 370 325 434 344"/>
-            </svg>
-            <div class="module module-sales"><i>01</i><strong>Vendas</strong><span>PDV + NF-e</span></div>
-            <div class="module module-stock"><i>02</i><strong>Estoque</strong><span>Tempo real</span></div>
-            <div class="module module-fiscal"><i>03</i><strong>Fiscal</strong><span>Conformidade</span></div>
-            <div class="module module-finance"><i>04</i><strong>Financeiro</strong><span>Visão de caixa</span></div>
-            <div class="system-core">
-              <span>IN</span>
-              <strong>Gestão</strong>
-              <small>sincronizada</small>
-            </div>
-          </div>
-          <div class="system-footer">
-            <span><i></i> Sistemas conectados</span>
-            <span>Dados atualizados agora</span>
-          </div>
+        <div class="hero-media reveal is-visible" aria-label="Tecnologia aplicada à rotina dos clientes da Innovati">
+          <figure class="hero-visual is-active" data-hero-visual>
+            <img src="assets/img/hero/hero-gestao.webp" width="1400" height="933" alt="Lojista usando um tablet junto ao caixa de uma loja de roupas" fetchpriority="high">
+            <figcaption><span>Gestão integrada</span><strong>Informação na mão de quem decide.</strong></figcaption>
+          </figure>
+          <figure class="hero-visual" data-hero-visual hidden>
+            <img src="assets/img/hero/hero-fiscal.webp" width="1400" height="933" alt="Consultora e lojista analisando informações de gestão em um notebook" loading="lazy">
+            <figcaption><span>Consultoria fiscal</span><strong>Decisões mais seguras, lado a lado.</strong></figcaption>
+          </figure>
+          <figure class="hero-visual" data-hero-visual hidden>
+            <img src="assets/img/hero/hero-suporte.webp" width="1400" height="933" alt="Consultor auxiliando uma comerciante a utilizar o sistema no notebook" loading="lazy">
+            <figcaption><span>Implantação e suporte</span><strong>Tecnologia funcionando na rotina real.</strong></figcaption>
+          </figure>
+          <div class="hero-media-label" aria-hidden="true"><i></i> INNOVATI / EM CAMPO</div>
         </div>
       </div>
     </section>

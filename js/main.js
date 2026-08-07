@@ -64,6 +64,7 @@
 
   const heroCarousel = document.querySelector('[data-hero-carousel]');
   const heroSlides = [...document.querySelectorAll('[data-hero-slide]')];
+  const heroVisuals = [...document.querySelectorAll('[data-hero-visual]')];
   const heroDots = [...document.querySelectorAll('[data-hero-dot]')];
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   let activeHero = 0;
@@ -75,6 +76,11 @@
       const active = slideIndex === activeHero;
       slide.hidden = !active;
       slide.classList.toggle('is-active', active);
+    });
+    heroVisuals.forEach((visual, visualIndex) => {
+      const active = visualIndex === activeHero;
+      visual.hidden = !active;
+      visual.classList.toggle('is-active', active);
     });
     heroDots.forEach((dot, dotIndex) => {
       const active = dotIndex === activeHero;
