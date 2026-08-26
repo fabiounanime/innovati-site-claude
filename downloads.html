@@ -11,6 +11,48 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="icon" href="assets/img/logo-innovati.png" type="image/png">
   <link rel="stylesheet" href="css/styles.css">
+  <style>
+    /* Popup exclusivo da página de Downloads — não altera o restante do site */
+    .remote-platform-dialog {
+      width: min(560px, calc(100% - 32px));
+      max-height: calc(100vh - 32px);
+      margin: auto;
+      padding: 0;
+      border: 0;
+      border-radius: 22px;
+      color: #25364a;
+      background: #fff;
+      box-shadow: 0 28px 80px rgba(25, 45, 70, .28);
+    }
+    .remote-platform-dialog::backdrop { background: rgba(18, 32, 49, .58); backdrop-filter: blur(4px); }
+    .remote-platform-shell { position: relative; padding: 34px; }
+    .remote-platform-close {
+      position: absolute; top: 16px; right: 16px; width: 38px; height: 38px;
+      display: grid; place-items: center; border: 1px solid #d9e2eb; border-radius: 50%;
+      color: #4c5e72; background: #fff; font-size: 25px; line-height: 1; cursor: pointer;
+    }
+    .remote-platform-close:hover { background: #f4f7fa; }
+    .remote-platform-kicker {
+      display: block; margin-bottom: 10px; color: #1769d2; font-family: var(--font-mono);
+      font-size: 10px; font-weight: 600; letter-spacing: .11em; text-transform: uppercase;
+    }
+    .remote-platform-dialog h2 { margin: 0; padding-right: 44px; font-family: var(--font-display); font-size: clamp(25px, 4vw, 32px); line-height: 1.15; }
+    .remote-platform-dialog p { margin: 12px 0 24px; color: #697a8d; font-size: 14px; }
+    .remote-platform-options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .remote-platform-option {
+      display: flex; align-items: center; justify-content: space-between; gap: 14px;
+      min-height: 74px; padding: 16px 18px; border: 1px solid #d9e2eb; border-radius: 14px;
+      color: #25364a; background: #f8fafc; text-decoration: none; transition: .2s ease;
+    }
+    .remote-platform-option:hover { border-color: #7db2ea; background: #f1f7ff; transform: translateY(-2px); }
+    .remote-platform-option strong { display: block; font-size: 15px; }
+    .remote-platform-option small { display: block; margin-top: 3px; color: #7b8b9b; font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; }
+    .remote-platform-option span { color: #1769d2; font-size: 20px; }
+    @media (max-width: 560px) {
+      .remote-platform-shell { padding: 28px 20px 22px; }
+      .remote-platform-options { grid-template-columns: 1fr; }
+    }
+  </style>
   <script src="js/main.js" defer></script>
 </head>
 <body class="downloads-page">
@@ -49,7 +91,7 @@
             <span class="download-type">Acesso assistido</span>
             <h2>SUPORTE REMOTO</h2>
             <p>Permite que nossa equipe acesse seu computador com segurança para realizar o atendimento técnico.</p>
-            <a class="button button-primary" href="https://dashboard.hoptodesk.com/downloads/launcher?code=GWciAKRLlGAK76GD&amp;platform=windows" target="_blank" rel="noopener">Baixar para Windows <span>↓</span></a>
+            <button class="button button-primary" type="button" data-open-remote-platform>Baixar Suporte Remoto <span>↓</span></button>
           </article>
 
           <article class="download-card reveal">
@@ -94,6 +136,29 @@
     <div class="container footer-bottom"><span>© 2026 Innovati Automação e Consultoria.</span><span>Tecnologia que entende o seu negócio.</span></div>
   </footer>
 
+  <dialog class="remote-platform-dialog" data-remote-platform-dialog aria-labelledby="remote-platform-title">
+    <div class="remote-platform-shell">
+      <button class="remote-platform-close" type="button" aria-label="Fechar" data-close-remote-platform>×</button>
+      <span class="remote-platform-kicker">Suporte Remoto Innovati</span>
+      <h2 id="remote-platform-title">Qual versão deseja baixar?</h2>
+      <p>Selecione o sistema operacional do dispositivo onde o suporte remoto será utilizado.</p>
+      <div class="remote-platform-options">
+        <a class="remote-platform-option" href="https://dashboard.hoptodesk.com/downloads/custom-builds/2763/suporteremoto.exe" target="_blank" rel="noopener">
+          <span><strong>Windows</strong><small>Arquivo .exe</small></span><span aria-hidden="true">↓</span>
+        </a>
+        <a class="remote-platform-option" href="https://dashboard.hoptodesk.com/downloads/custom-builds/2763/suporteremoto.dmg" target="_blank" rel="noopener">
+          <span><strong>macOS</strong><small>Arquivo .dmg</small></span><span aria-hidden="true">↓</span>
+        </a>
+        <a class="remote-platform-option" href="https://dashboard.hoptodesk.com/downloads/custom-builds/2763/suporteremoto.deb" target="_blank" rel="noopener">
+          <span><strong>Linux</strong><small>Arquivo .deb</small></span><span aria-hidden="true">↓</span>
+        </a>
+        <a class="remote-platform-option" href="https://dashboard.hoptodesk.com/downloads/custom-builds/2763/suporteremoto.apk" target="_blank" rel="noopener">
+          <span><strong>Android</strong><small>Arquivo .apk</small></span><span aria-hidden="true">↓</span>
+        </a>
+      </div>
+    </div>
+  </dialog>
+
   <dialog class="contact-dialog" data-contact-dialog aria-labelledby="dialog-title">
     <div class="dialog-shell">
       <button class="dialog-close" type="button" aria-label="Fechar formulário" data-close-contact>×</button>
@@ -112,5 +177,27 @@
   </dialog>
 
   <a class="whatsapp-float" href="https://wa.me/5521993076319" target="_blank" rel="noopener" aria-label="Falar com a Innovati pelo WhatsApp"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3a13 13 0 0 0-11.3 19.4L3 29l6.8-1.7A13 13 0 1 0 16 3z"/><path d="M11 10.5c.3-.7.7-.7 1-.7h.7c.2 0 .5.1.6.5l1 2.3c.1.4 0 .7-.2 1l-.8 1c1 2.1 2.6 3.8 4.8 4.8l1-1.2c.3-.3.6-.4 1-.2l2.4 1.1c.4.2.5.4.5.7 0 .5-.2 2-1.4 2.8-1 .7-2.3.9-3.8.4-3.8-1.2-7-4.1-8.6-7.7-.7-1.7-.5-3.5.3-4.8z"/></svg></a>
+
+  <script>
+    (() => {
+      const openButton = document.querySelector('[data-open-remote-platform]');
+      const dialog = document.querySelector('[data-remote-platform-dialog]');
+      const closeButton = dialog?.querySelector('[data-close-remote-platform]');
+      if (!openButton || !dialog) return;
+
+      const openDialog = () => {
+        if (typeof dialog.showModal === 'function') dialog.showModal();
+        else dialog.setAttribute('open', '');
+      };
+      const closeDialog = () => {
+        if (typeof dialog.close === 'function') dialog.close();
+        else dialog.removeAttribute('open');
+      };
+
+      openButton.addEventListener('click', openDialog);
+      closeButton?.addEventListener('click', closeDialog);
+      dialog.addEventListener('click', (event) => { if (event.target === dialog) closeDialog(); });
+    })();
+  </script>
 </body>
 </html>
